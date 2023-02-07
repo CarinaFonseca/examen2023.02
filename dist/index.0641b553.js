@@ -557,6 +557,99 @@ function hmrAccept(bundle, id) {
 }
 
 },{}],"bNKaB":[function(require,module,exports) {
+var _userJs = require("./modules/User.js");
+const colorContainer = document.querySelector("main");
+const generate = async (e)=>{
+    const reponse = await fetch("https://randomuser.me/api/?results=20");
+    const { results  } = await reponse.json();
+    console.log(results[0]);
+    const user1 = new (0, _userJs.User)(`${results[0].name.first}`, `${results[0].dob.age}`, `${results[0].email}`);
+    user1.display();
+};
+generate();
+console.log(user);
+
+},{"./modules/User.js":"6Uczn"}],"6Uczn":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "User", ()=>User);
+class User {
+    constructor(name, age, email, photo, etatUser){
+        // Créer une ou plusieurs propriétés contenant les informations d’un utilisateur
+        this.name = name;
+        this.age = age;
+        this.email = email;
+        this.photo = photo;
+        // Une propriété indiquant si l’utilisateur est présent ou non. Celle-ci devrait être false par défaut.
+        this.etatUser = false;
+        // Une propriété se référant à l’élément utilisateur qui sera généré par la méthode décrite directement ci-dessous. 
+        this.element = this.#render();
+    }
+    #render() {
+        const main = document.querySelector("main");
+        const containerElement = document.createElement("div");
+        containerElement.classList.add("user");
+        containerElement.dataset.present = this.etatUser;
+        const childHTML = `
+		    <img src="${this.photo}">
+		    <div class="user--info">
+				<h1>${this.name}</h1>
+				<p>${this.age} years old</p>
+				<p>${this.email}</p>
+		    </div>
+            <a href="${this.email}">
+				<span class="mail">✉️</span>
+		    </a>
+            `;
+        containerElement.insertAdjacentHTML("afterbegin", childHTML);
+        main.appendChild(containerElement);
+        console.log(containerElement);
+    }
+    display() {
+        const user = document.querySelector(".user");
+        user.addEventListener("click", (e)=>{
+            if (this.etatUser === true) {
+                user.style.backgroundColor = "white";
+                this.etatUser = false;
+                console.log(this.etatUser);
+            } else {
+                user.style.backgroundColor = "green";
+                this.etatUser = true;
+                console.log(this.etatUser);
+            }
+        });
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
 
 },{}]},["lKzq4","bNKaB"], "bNKaB", "parcelRequirec56a")
 
